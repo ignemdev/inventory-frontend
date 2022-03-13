@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { RouterModule } from '@angular/router';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 
 import { UsuarioLoginComponent } from './usuario/usuario-login/usuario-login.component';
@@ -29,6 +30,8 @@ import { UsuarioLayoutComponent } from './common/usuario-layout/usuario-layout.c
     BrowserModule,
     HttpClientModule,
     RouterModule,
+    ReactiveFormsModule,
+    FormsModule,
     AppRoutingModule
   ],
   providers: [

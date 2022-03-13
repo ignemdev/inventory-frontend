@@ -1,1 +1,20 @@
-<p>usuario-register works!</p>
+<section class="bg-white shadow p-5">
+    <form [formGroup]="registerForm" (ngSubmit)="registerUsuario()">
+        <h1 class="text-center mb-4 text-dark"><span class="bg-danger text-white p-2">Inventory</span> App</h1>
+        <div class="mb-3">
+            <label for="register-username" class="form-label">Usuario</label>
+            <input formControlName="username" class="form-control" id="register-username" placeholder="Usuario">
+        </div>
+        <div class="mb-3">
+            <label for="register-password" class="form-label">Correo</label>
+            <input type="email" formControlName="email" class="form-control" id="register-email" placeholder="Correo">
+        </div>
+        <div class="mb-3">
+            <label for="register-password" class="form-label">Contraseña</label>
+            <input type="password" formControlName="password" class="form-control" id="register-password"
+                placeholder="Contraseña">
+        </div>
+        <button type="submit" class="btn btn-dark w-100 mb-2">Registrar</button>
+        <a type="submit" class="btn btn-outline-dark w-100" routerLink="/login">Login</a>
+    </form>
+</section>
