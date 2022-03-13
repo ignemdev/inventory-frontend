@@ -1,8 +1,10 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { RouterModule } from '@angular/router';
-
 import { AppRoutingModule } from './app-routing.module';
+
 import { UsuarioLoginComponent } from './usuario/usuario-login/usuario-login.component';
 import { UsuarioRegisterComponent } from './usuario/usuario-register/usuario-register.component';
 import { ProductoAllComponent } from './producto/producto-all/producto-all.component';
@@ -25,10 +27,18 @@ import { UsuarioLayoutComponent } from './common/usuario-layout/usuario-layout.c
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     RouterModule,
     AppRoutingModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }
