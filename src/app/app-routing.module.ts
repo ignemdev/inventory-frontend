@@ -7,18 +7,20 @@ import { ProductoAllComponent } from './producto/producto-all/producto-all.compo
 import { AppLayoutComponent } from './common/app-layout/app-layout.component';
 import { UsuarioLayoutComponent } from './common/usuario-layout/usuario-layout.component';
 
+import { AuthGuard } from './guards/auth.guard';
+
 const routes: Routes = [
-  { 
+  {
     path: '',
-    component: AppLayoutComponent, 
+    component: AppLayoutComponent,
     children: [
-      { path: 'productos', component: ProductoAllComponent }
+      { path: 'productos', component: ProductoAllComponent, canActivate: [AuthGuard] }
     ]
   },
 
-  { 
+  {
     path: '',
-    component: UsuarioLayoutComponent, 
+    component: UsuarioLayoutComponent,
     children: [
       { path: 'login', component: UsuarioLoginComponent },
       { path: 'register', component: UsuarioRegisterComponent }
