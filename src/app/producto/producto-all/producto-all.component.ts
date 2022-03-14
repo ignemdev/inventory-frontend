@@ -6,6 +6,7 @@ import { ProductoService } from 'src/app/services/producto.service';
 
 import { BtnEditComponent } from 'src/app/buttons/btn-edit.component';
 import { BtnDeleteComponent } from 'src/app/buttons/btn-delete.component';
+import { ProductoAddComponent } from '../producto-add/producto-add.component';
 
 @Component({
   selector: 'app-producto-all',
@@ -16,6 +17,7 @@ import { BtnDeleteComponent } from 'src/app/buttons/btn-delete.component';
 export class ProductoAllComponent implements OnInit {
 
   productos$!: Observable<any[]>;
+  public showAddModal: boolean = false;
 
   columnDefs: (ColDef | ColGroupDef)[] = [
     { headerName: 'Id', field: 'id', sortable: true, filter: true, },
@@ -95,5 +97,14 @@ export class ProductoAllComponent implements OnInit {
 
   onGridReady(params: GridReadyEvent) {
     this.gridApi = params.api;
+  }
+
+  //abrir modal para agregar
+  public addModalHandler() {
+    this.showAddModal = true;
+  }
+
+  closeModal() {
+    this.showAddModal = false;
   }
 }
