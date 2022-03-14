@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ProductoService } from 'src/app/services/producto.service';
 import { UnidadService } from 'src/app/services/unidad.service';
@@ -15,14 +15,6 @@ export class ProductoAddComponent implements OnInit {
   addProductoForm: FormGroup;
   public unidadesList: Array<Select2OptionData>;
   public formControl = new FormControl();
-  public unidadId!: string;
-
-  // Get data From Parent ----------------------------------
-  @Input() public set getModelId(_model: any) {
-    if (_model != undefined) {
-      //get data ...........
-    }
-  }
 
   // Close Modal ----------------------------------
   @Output() public OnCloseModal: EventEmitter<any> = new EventEmitter();

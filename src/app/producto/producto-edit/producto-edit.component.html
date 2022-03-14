@@ -1,1 +1,61 @@
-<p>producto-edit works!</p>
+<div class="modal modal-backdrop d-block" id="productoEditModal" data-bs-backdrop="true" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="productoEditModalLabel" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="text-center text-dark modal-title"><span class="bg-danger text-white p-2">Editar</span>
+                    Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" mat-button
+                    (click)="onCancel()"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="editProductoForm" (ngSubmit)="editProducto()">
+                    <input type="hidden" formControlName="id" class="form-control" id="producto-id">
+                    <div class="mb-3">
+                        <label for="producto-nombre" class="form-label">Nombre</label>
+                        <input formControlName="nombre" class="form-control" id="producto-nombre" placeholder="Nombre">
+                    </div>
+                    <div class="mb-3">
+                        <label for="producto-descripcion" class="form-label">Descripcion</label>
+                        <textarea formControlName="descripcion" class="form-control" id="producto-descripcion"
+                            placeholder="descripcion">
+                        </textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="producto-precio" class="form-label">Precio</label>
+                        <input type="number" formControlName="precio" class="form-control" id="producto-precio"
+                            placeholder="precio">
+                    </div>
+                    <div class="mb-3">
+                        <label for="producto-unidad" class="form-label">Unidad</label>
+                        <ng-select2 *ngIf="unidadesList.length != 0" [data]="unidadesList" formControlName="unidadId"
+                            width="100%">
+                        </ng-select2>
+                    </div>
+                    <button type="submit" class="btn btn-dark w-100 mb-2">Guardar</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal" mat-button
+                    (click)="onCancel()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 10000">
+    <div id="liveToast" class="toast hide d-block" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img src="..." class="rounded me-2" alt="...">
+            <strong class="me-auto">Bootstrap</strong>
+            <small>11 mins ago</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Hello, world! This is a toast message.
+        </div>
+    </div>
+</div> -->
+<!-- 
+(valueChanged)="valueChanged($event)"
+(ngModelChange)="modelChanged($event)" -->

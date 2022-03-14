@@ -6,7 +6,6 @@ import { ProductoService } from 'src/app/services/producto.service';
 
 import { BtnEditComponent } from 'src/app/buttons/btn-edit.component';
 import { BtnDeleteComponent } from 'src/app/buttons/btn-delete.component';
-import { ProductoAddComponent } from '../producto-add/producto-add.component';
 
 @Component({
   selector: 'app-producto-all',
@@ -18,6 +17,8 @@ export class ProductoAllComponent implements OnInit {
 
   productos$!: Observable<any[]>;
   public showAddModal: boolean = false;
+  public showEditModal: boolean = false;
+  public selectedProductoId: any;
 
   columnDefs: (ColDef | ColGroupDef)[] = [
     { headerName: 'Id', field: 'id', sortable: true, filter: true, },
@@ -40,7 +41,7 @@ export class ProductoAllComponent implements OnInit {
           field: "id",
           cellRenderer: BtnEditComponent,
           cellRendererParams: {
-            clicked: this.editProducto
+            clicked: this.editModalHandler
           },
           width: 100,
         },
@@ -81,12 +82,34 @@ export class ProductoAllComponent implements OnInit {
     return res.data
   }
 
-  editProducto(id: any) {
-    alert(`editar ${id}`);
+  //abrir modal para agregar
+  public addModalHandler() {
+    this.showAddModal = true;
   }
 
+  //abrir modal para editar
+  public editModalHandler(id: any) {
+    this.showEditModal = true;
+    this.selectedProductoId = id;
+    console.log(`editar ${id}`);
+    console.log(`editar ${this.showEditModal}`);
+  }
+
+  //borrar producto
   deleteProducto(id: any) {
     alert(`borrar ${id}`);
+  }
+
+  //cerrar modal para agregar
+  closeAddModal() {
+    this.refreshGrid();
+    this.showAddModal = false;
+  }
+
+  //cerrar modal para editar
+  closeEditModal() {
+    this.refreshGrid();
+    this.showEditModal = false;
   }
 
   refreshGrid(): void {
@@ -98,16 +121,5 @@ export class ProductoAllComponent implements OnInit {
 
   onGridReady(params: GridReadyEvent) {
     this.gridApi = params.api;
-  }
-
-  //abrir modal para agregar
-  public addModalHandler() {
-    this.showAddModal = true;
-  }
-
-  //cerrar modal para agregar
-  closeModal() {
-    this.refreshGrid();
-    this.showAddModal = false;
   }
 }

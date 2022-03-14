@@ -1,8 +1,10 @@
 <section class="container-fluid p-5">
     <button class="btn btn-dark my-2" (click)="addModalHandler()">Nuevo</button>
     <!-- modal va aqui -->
-    <app-producto-add *ngIf="showAddModal" (OnCloseModal)="closeModal()" [getModelId]="1">
+    <app-producto-add *ngIf="showAddModal" (OnCloseModal)="closeAddModal()">
     </app-producto-add>
+    <app-producto-edit *ngIf="showEditModal" (OnCloseModal)="closeEditModal()" [setProductoId]="selectedProductoId">
+    </app-producto-edit>
     <!-- modal va aqui -->
     <ag-grid-angular style="width: 100%; height: 500px;" class="ag-theme-alpine" domLayout="autoHeight"
         [rowData]="productos$ | async" [columnDefs]="columnDefs" [pagination]="true" [gridOptions]="gridOptions"
