@@ -1,8 +1,11 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Observable, map, Subject } from 'rxjs';
-import { DataTableDirective } from 'angular-datatables';
+import { Component, OnInit } from '@angular/core';
+import { Observable, map } from 'rxjs';
+import { ColDef, ColGroupDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 
 import { ProductoService } from 'src/app/services/producto.service';
+
+import { BtnEditComponent } from 'src/app/buttons/btn-edit.component';
+import { BtnDeleteComponent } from 'src/app/buttons/btn-delete.component';
 
 @Component({
   selector: 'app-producto-all',
@@ -10,60 +13,87 @@ import { ProductoService } from 'src/app/services/producto.service';
   styleUrls: ['./producto-all.component.css'],
 })
 
-export class ProductoAllComponent implements OnInit, AfterViewInit {
+export class ProductoAllComponent implements OnInit {
 
-  productoList: any[] = [];
+  productos$!: Observable<any[]>;
 
-  @ViewChild(DataTableDirective, { static: false })
-  datatableElement!: DataTableDirective;
+  columnDefs: (ColDef | ColGroupDef)[] = [
+    { headerName: 'Id', field: 'id', sortable: true, filter: true, },
+    { headerName: 'Nombre', field: 'nombre', sortable: true, filter: true, },
+    { headerName: 'Descripcion', field: 'descripcion', sortable: true, filter: true, },
+    { headerName: 'Stock', field: 'stock', sortable: true, filter: true, },
+    { headerName: 'Precio', field: 'precio', sortable: true, filter: true, },
+    { headerName: 'Unidad', field: 'unidad.descripcion', sortable: true, filter: true, },
+    { headerName: 'Stock', field: 'stock', sortable: true, filter: true, },
+    { headerName: 'Creado', field: 'creado', sortable: true, filter: true },
+    { headerName: 'Modificado', field: 'modificado', sortable: true, filter: true },
+    { headerName: 'Creador', field: 'creador.username', sortable: true, filter: true },
+    { headerName: 'Modificador', field: 'modificador.username', sortable: true, filter: true },
 
-  dtOptions: DataTables.Settings = {};
-  dtLanguage: DataTables.LanguageSettings = {
-    url: '//cdn.datatables.net/plug-ins/1.11.5/i18n/es-ES.json'
-  };
-  dtColumnDefs: DataTables.ColumnDefsSettings[] = [
-    { width: "10%", targets: '_all' }
-  ]
-  dtTrigger: Subject<any> = new Subject<any>();
+    {
+      headerName: 'Operaciones',
+      children: [
+        {
+          headerName: 'Editar',
+          field: "id",
+          cellRenderer: BtnEditComponent,
+          cellRendererParams: {
+            clicked: this.editProducto
+          },
+          width: 100,
+        },
+        {
+          headerName: 'Eliminar',
+          field: "id",
+          cellRenderer: BtnDeleteComponent,
+          cellRendererParams: {
+            clicked: this.deleteProducto
+          },
+          width: 120,
+        }
+      ]
+    }
+
+  ];
+
+  gridOptions = {
+    suppressMenuHide: true,
+  }
 
   constructor(
     private productoService: ProductoService
   ) { }
 
-  ngOnInit(): void {
-    this.dtOptions = {
-      language: this.dtLanguage,
-      columnDefs: this.dtColumnDefs,
-      scrollX: true,
-    }
+  gridApi!: GridApi;
 
-    this.productoService.getProductoList()
-      .subscribe((res: any) => {
-        this.productoList = res.data;
-        this.dtTrigger.next(0);
-        this.setColumFiltering();
-      });
+  ngOnInit(): void {
+    this.productos$ = this.productoService.getProductoList()
+      .pipe(map(this.getData))
   }
 
-  ngAfterViewInit(): void { }
+  getData(res: any) {
+    if (res.hasError) {
+      console.log(res) //mostrar error
+    }
 
-  setColumFiltering(): void {
-    this.datatableElement.dtInstance.then((dtInstance: DataTables.Api) => {
-      dtInstance.columns().every(function () {
-        const that = this;
-        $('input', this.footer()).on('keyup change', function () {
-          const input: string = (this as HTMLInputElement).value;
-          if (that.search() !== input) {
-            console.log(input);
-            that.search(input).draw();
-          }
-        });
-      });
+    return res.data
+  }
+
+  editProducto(id: any) {
+    alert(`editar ${id}`);
+  }
+
+  deleteProducto(id: any) {
+    alert(`borrar ${id}`);
+  }
+
+  refreshGrid(): void {
+    this.productos$.subscribe((data: any) => {
+      this.gridApi.setRowData(data);
     });
   }
 
-  ngOnDestroy(): void {
-    this.dtTrigger.unsubscribe();
+  onGridReady(params: GridReadyEvent) {
+    this.gridApi = params.api;
   }
-
 }

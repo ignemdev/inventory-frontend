@@ -5,7 +5,6 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
-import { DataTablesModule } from 'angular-datatables';
 
 import { AppLayoutComponent } from './common/app-layout/app-layout.component';
 import { UsuarioLayoutComponent } from './common/usuario-layout/usuario-layout.component';
@@ -18,9 +17,12 @@ import { ProductoAddComponent } from './producto/producto-add/producto-add.compo
 import { ProductoEditComponent } from './producto/producto-edit/producto-edit.component';
 
 import { AppComponent } from './app.component';
+import { AgGridModule } from 'ag-grid-angular';
 
 import { ProductoService } from './services/producto.service';
 import { UnidadService } from './services/unidad.service';
+import { BtnEditComponent } from './buttons/btn-edit.component';
+import { BtnDeleteComponent } from './buttons/btn-delete.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +34,8 @@ import { UnidadService } from './services/unidad.service';
     ProductoEditComponent,
     AppLayoutComponent,
     UsuarioLayoutComponent,
+    BtnEditComponent,
+    BtnDeleteComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,8 +43,8 @@ import { UnidadService } from './services/unidad.service';
     RouterModule,
     ReactiveFormsModule,
     FormsModule,
-    DataTablesModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AgGridModule.withComponents([BtnEditComponent, BtnDeleteComponent])
   ],
   providers: [
     {

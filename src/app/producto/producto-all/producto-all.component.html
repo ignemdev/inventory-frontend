@@ -1,46 +1,7 @@
 <section class="container-fluid p-5">
-    <table datatable class="table table-striped" [dtOptions]="dtOptions" [dtTrigger]="dtTrigger">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Nombre</th>
-                <th>Descripcion</th>
-                <th>Stock</th>
-                <th>Precio</th>
-                <th>Unidad</th>
-                <th>Creado</th>
-                <th>Modificado</th>
-                <th>Creador</th>
-                <th>Modificador</th>
-            </tr>
-        </thead>
-        <tbody *ngIf="productoList?.length != 0">
-            <tr *ngFor="let producto of productoList">
-                <td>{{producto.id}}</td>
-                <td>{{producto.nombre}}</td>
-                <td>{{producto.descripcion}}</td>
-                <td>{{producto.stock}}</td>
-                <td>{{producto.precio}}</td>
-                <td>{{producto.unidad.descripcion}}</td>
-                <td>{{producto.creado}}</td>
-                <td>{{producto.modificado}}</td>
-                <td>{{producto.creador.username}}</td>
-                <td>{{producto.modificador.username}}</td>
-            </tr>
-        </tbody>
-        <tfoot>
-            <tr>
-                <th><input type="text" class="form-control" placeholder="Id" name="search-id"></th>
-                <th><input type="text" class="form-control" placeholder="Nombre"></th>
-                <th><input type="text" class="form-control" placeholder="Descripcion"></th>
-                <th><input type="text" class="form-control" placeholder="Stock"></th>
-                <th><input type="text" class="form-control" placeholder="Precio"></th>
-                <th><input type="text" class="form-control" placeholder="Unidad"></th>
-                <th><input type="text" class="form-control" placeholder="Creado"></th>
-                <th><input type="text" class="form-control" placeholder="Modificado"></th>
-                <th><input type="text" class="form-control" placeholder="Creador"></th>
-                <th><input type="text" class="form-control" placeholder="Modificador"></th>
-            </tr>
-        </tfoot>
-    </table>
+    <button class="btn btn-dark my-2" (click)="refreshGrid()">Nuevo</button>
+    <ag-grid-angular style="width: 100%; height: 500px;" class="ag-theme-alpine" domLayout="autoHeight"
+        [rowData]="productos$ | async" [columnDefs]="columnDefs" [pagination]="true" [gridOptions]="gridOptions"
+        (gridReady)="onGridReady($event)">
+    </ag-grid-angular>
 </section>
