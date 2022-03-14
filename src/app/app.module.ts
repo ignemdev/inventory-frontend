@@ -17,7 +17,9 @@ import { ProductoAddComponent } from './producto/producto-add/producto-add.compo
 import { ProductoEditComponent } from './producto/producto-edit/producto-edit.component';
 
 import { AppComponent } from './app.component';
+
 import { AgGridModule } from 'ag-grid-angular';
+import { NgSelect2Module } from 'ng-select2';
 
 import { ProductoService } from './services/producto.service';
 import { UnidadService } from './services/unidad.service';
@@ -44,7 +46,8 @@ import { BtnDeleteComponent } from './buttons/btn-delete.component';
     ReactiveFormsModule,
     FormsModule,
     AppRoutingModule,
-    AgGridModule.withComponents([BtnEditComponent, BtnDeleteComponent])
+    AgGridModule.withComponents([BtnEditComponent, BtnDeleteComponent]),
+    NgSelect2Module
   ],
   providers: [
     {
