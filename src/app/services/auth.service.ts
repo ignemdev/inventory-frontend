@@ -12,7 +12,7 @@ import { UsuarioRegister } from '../models/auth/usuario-register';
 })
 
 export class AuthService {
-  endpoint: string = 'https://localhost:7257/api';
+  readonly endpoint: string = 'https://localhost:7257/api';
   headers = new HttpHeaders().set('Content-Type', 'application/json');
 
   constructor(private http: HttpClient, public router: Router) { }
