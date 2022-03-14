@@ -27,7 +27,8 @@
                     </div>
                     <div class="mb-3">
                         <label for="producto-unidad" class="form-label">Unidad</label>
-                        <ng-select2 [data]="exampleData" [(ngModel)]="value" [formControl]="formControl" width="100%">
+                        <ng-select2 *ngIf="unidadesList.length != 0" [data]="unidadesList" formControlName="unidadId"
+                            width="100%">
                         </ng-select2>
                     </div>
                     <button type="submit" class="btn btn-dark w-100 mb-2">Agregar</button>
@@ -54,3 +55,6 @@
         </div>
     </div>
 </div> -->
+<!-- 
+(valueChanged)="valueChanged($event)"
+(ngModelChange)="modelChanged($event)" -->

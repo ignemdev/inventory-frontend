@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 import { ProductoService } from 'src/app/services/producto.service';
 import { UnidadService } from 'src/app/services/unidad.service';
 import { Select2OptionData } from 'ng-select2';
+import { map } from 'rxjs';
 
 @Component({
   selector: 'app-producto-add',
@@ -12,9 +13,9 @@ import { Select2OptionData } from 'ng-select2';
 
 export class ProductoAddComponent implements OnInit {
   addProductoForm: FormGroup;
-  public exampleData: Array<Select2OptionData>;
+  public unidadesList: Array<Select2OptionData>;
   public formControl = new FormControl();
-  public value!: string;
+  public unidadId!: string;
 
   // Get data From Parent ----------------------------------
   @Input() public set getModelId(_model: any) {
@@ -32,40 +33,50 @@ export class ProductoAddComponent implements OnInit {
   constructor(
     public fb: FormBuilder,
     public productoService: ProductoService,
+    public unidadService: UnidadService
   ) {
     this.addProductoForm = this.fb.group({
       nombre: [''],
       descripcion: [''],
       precio: [''],
+      unidadId: ['']
     });
 
-    this.exampleData = [
-      {
-        id: 'basic1',
-        text: 'Basic 1'
-      },
-      {
-        id: 'basic2',
-        disabled: true,
-        text: 'Basic 2'
-      },
-      {
-        id: 'basic3',
-        text: 'Basic 3'
-      },
-      {
-        id: 'basic4',
-        text: 'Basic 4'
-      }
-    ];
+    this.unidadesList = [];
   }
 
   ngOnInit(): void {
+    this.unidadService.getUnidadList()
+      .pipe(map(this.resToSelect2List))
+      .subscribe((data: any) => this.unidadesList = data);
+  }
 
+  resToSelect2List(res: any) {
+    const { data } = res;
+    const select2options = data.map((o: any) => {
+      return { id: o.id, text: o.descripcion }
+    });
+    return select2options;
   }
 
   addProducto(): void {
+    this.productoService.addProducto(this.addProductoForm.value).subscribe((res: any) => {
+      if (res.hasError) {
+        console.log(res); //mostrar mensaje
+      }
 
+      this.addProductoForm.reset();
+      this.OnCloseModal.emit(true);
+      console.log(res);
+    });
   }
+
+  // public valueChanged(event: string | string[]) {
+  //   // console.log(this.addProductoForm.value);
+  // }
+
+  // public modelChanged(event: string) {
+  //   // console.log(this.addProductoForm.value);
+  // }
 
 }

@@ -93,6 +93,7 @@ export class ProductoAllComponent implements OnInit {
     this.productos$.subscribe((data: any) => {
       this.gridApi.setRowData(data);
     });
+    console.log('refresco')
   }
 
   onGridReady(params: GridReadyEvent) {
@@ -104,7 +105,9 @@ export class ProductoAllComponent implements OnInit {
     this.showAddModal = true;
   }
 
+  //cerrar modal para agregar
   closeModal() {
+    this.refreshGrid();
     this.showAddModal = false;
   }
 }
