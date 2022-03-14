@@ -18,10 +18,12 @@ export class ProductoAllComponent implements OnInit {
   productos$!: Observable<any[]>;
   public showAddModal: boolean = false;
   public showEditModal: boolean = false;
+  public isRowSelected: boolean = false;
   public selectedProductoId: any;
 
+
   columnDefs: (ColDef | ColGroupDef)[] = [
-    { headerName: 'Id', field: 'id', sortable: true, filter: true, },
+    { headerName: 'Id', field: 'id', sortable: true, filter: true, checkboxSelection: true },
     { headerName: 'Nombre', field: 'nombre', sortable: true, filter: true, },
     { headerName: 'Descripcion', field: 'descripcion', sortable: true, filter: true, },
     { headerName: 'Stock', field: 'stock', sortable: true, filter: true, },
@@ -61,6 +63,8 @@ export class ProductoAllComponent implements OnInit {
 
   gridOptions = {
     suppressMenuHide: true,
+    suppressRowDeselection: true,
+    suppressRowClickSelection: true
   }
 
   constructor(
@@ -88,11 +92,15 @@ export class ProductoAllComponent implements OnInit {
   }
 
   //abrir modal para editar
-  public editModalHandler(id: any) {
+  public editModalHandler() {
     this.showEditModal = true;
-    this.selectedProductoId = id;
-    console.log(`editar ${id}`);
-    console.log(`editar ${this.showEditModal}`);
+  }
+
+  //evento disparado cuando se cambia el producto seleccionado
+  onProductoSelectedChange() {
+    const selectedRows = this.gridApi.getSelectedRows()[0];
+    this.isRowSelected = selectedRows;
+    this.selectedProductoId = (this.isRowSelected) ? selectedRows?.id : 0;
   }
 
   //borrar producto
@@ -109,6 +117,7 @@ export class ProductoAllComponent implements OnInit {
   //cerrar modal para editar
   closeEditModal() {
     this.refreshGrid();
+    this.isRowSelected = false;
     this.showEditModal = false;
   }
 

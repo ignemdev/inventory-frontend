@@ -1,5 +1,16 @@
 <section class="container-fluid p-5">
-    <button class="btn btn-dark my-2" (click)="addModalHandler()">Nuevo</button>
+    <div>
+        <button class="btn btn-dark my-2" (click)="addModalHandler()">Nuevo</button>
+        <div *ngIf="isRowSelected" class="btn-group mx-2" role="group" aria-label="Basic example">
+            <button type="button" (click)="editModalHandler()" class="btn btn-outline-dark">Editar</button>
+            <button type="button" (click)="editModalHandler()" class="btn btn-outline-danger">Eliminar</button>
+        </div>
+
+        <div *ngIf="isRowSelected" class="btn-group" role="group" aria-label="Basic example">
+            <button type="button" (click)="editModalHandler()" class="btn btn-outline-dark">Entradas</button>
+            <button type="button" (click)="editModalHandler()" class="btn btn-outline-danger">Salidas</button>
+        </div>
+    </div>
     <!-- modal va aqui -->
     <app-producto-add *ngIf="showAddModal" (OnCloseModal)="closeAddModal()">
     </app-producto-add>
@@ -8,6 +19,6 @@
     <!-- modal va aqui -->
     <ag-grid-angular style="width: 100%; height: 500px;" class="ag-theme-alpine" domLayout="autoHeight"
         [rowData]="productos$ | async" [columnDefs]="columnDefs" [pagination]="true" [gridOptions]="gridOptions"
-        (gridReady)="onGridReady($event)">
+        (gridReady)="onGridReady($event)" (selectionChanged)="onProductoSelectedChange()" rowSelection="single">
     </ag-grid-angular>
 </section>

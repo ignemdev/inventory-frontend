@@ -16,6 +16,10 @@ export class ProductoService {
     return this.http.get<any>(this.endpoint + '/producto');
   }
 
+  getProductoById(id: number): Observable<any[]> {
+    return this.http.get<any>(this.endpoint + `/producto/${id}`);
+  }
+
   addProducto(producto: ProductoAdd) {
     return this.http.post<any>(this.endpoint + '/producto', producto);
   }

@@ -52,23 +52,14 @@ export class ProductoAddComponent implements OnInit {
   }
 
   addProducto(): void {
-    this.productoService.addProducto(this.addProductoForm.value).subscribe((res: any) => {
-      if (res.hasError) {
-        console.log(res); //mostrar mensaje
+    this.productoService.addProducto(this.addProductoForm.value).subscribe((data: any) => {
+      if (data.hasError) {
+        console.log(data); //mostrar mensaje
       }
 
       this.addProductoForm.reset();
       this.OnCloseModal.emit(true);
-      console.log(res);
+      console.log(data);
     });
   }
-
-  // public valueChanged(event: string | string[]) {
-  //   // console.log(this.addProductoForm.value);
-  // }
-
-  // public modelChanged(event: string) {
-  //   // console.log(this.addProductoForm.value);
-  // }
-
 }

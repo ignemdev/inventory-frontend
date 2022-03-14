@@ -20,7 +20,6 @@ export class ProductoEditComponent implements OnInit {
   @Input() public set setProductoId(_model: any) {
     if (_model != undefined) {
       this.productoId = _model;
-      console.log('desde modal:' + _model);
     }
   }
 
@@ -42,7 +41,6 @@ export class ProductoEditComponent implements OnInit {
       precio: [''],
       unidadId: ['']
     });
-
     this.unidadesList = [];
   }
 
@@ -51,7 +49,7 @@ export class ProductoEditComponent implements OnInit {
       .pipe(map(this.resToSelect2List))
       .subscribe((data: any) => this.unidadesList = data);
 
-    //llenar form
+    this.setFormData(this.productoId);
   }
 
   resToSelect2List(res: any) {
@@ -62,15 +60,24 @@ export class ProductoEditComponent implements OnInit {
     return select2options;
   }
 
+  setFormData(id: any): void {
+    this.productoService.getProductoById(id)
+      .pipe(map((res: any) => res.data))
+      .subscribe((data: any) => {
+        const { creado, modificado, creador, modificador, unidad, stock, ...producto } = data;
+        this.editProductoForm.setValue({ ...producto, unidadId: unidad.id });
+      });
+  }
+
   editProducto(): void {
-    this.productoService.editProducto(this.editProductoForm.value).subscribe((res: any) => {
-      if (res.hasError) {
-        console.log(res); //mostrar mensaje
+    this.productoService.editProducto(this.editProductoForm.value).subscribe((data: any) => {
+      if (data.hasError) {
+        console.log(data); //mostrar mensaje
       }
 
       this.editProductoForm.reset();
       this.OnCloseModal.emit(true);
-      console.log(res);
+      console.log(data);
     });
   }
 }
