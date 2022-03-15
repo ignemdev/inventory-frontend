@@ -4,6 +4,7 @@ import { ProductoService } from 'src/app/services/producto.service';
 import { UnidadService } from 'src/app/services/unidad.service';
 import { Select2OptionData } from 'ng-select2';
 import { map } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-producto-edit',
@@ -32,7 +33,8 @@ export class ProductoEditComponent implements OnInit {
   constructor(
     public fb: FormBuilder,
     public productoService: ProductoService,
-    public unidadService: UnidadService
+    public unidadService: UnidadService,
+    public toastr: ToastrService
   ) {
     this.editProductoForm = this.fb.group({
       id: [''],
@@ -71,13 +73,15 @@ export class ProductoEditComponent implements OnInit {
 
   editProducto(): void {
     this.productoService.editProducto(this.editProductoForm.value).subscribe((data: any) => {
+      console.log(data);
       if (data.hasError) {
-        console.log(data); //mostrar mensaje
+        this.toastr.error(data.errorMessage, 'Operacion Fallida');
+        return;
       }
 
       this.editProductoForm.reset();
       this.OnCloseModal.emit(true);
-      console.log(data);
+      this.toastr.success('Producto editado.', 'Operacion Exitosa');
     });
   }
 }

@@ -2,6 +2,7 @@ import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
 
 import { EntradaService } from 'src/app/services/entrada.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-entrada-add-edit',
@@ -35,7 +36,8 @@ export class EntradaAddEditComponent implements OnInit {
 
   constructor(
     public fb: FormBuilder,
-    public entradaService: EntradaService
+    public entradaService: EntradaService,
+    public toastr: ToastrService
   ) {
     this.entradaAddEditForm = this.fb.group(this.formDefaultValues);
   }
@@ -60,10 +62,13 @@ export class EntradaAddEditComponent implements OnInit {
     this.entradaService.addEntrada(entrada)
       .subscribe((data: any) => {
         if (data.hasError) {
-          console.log(data) //mostrar error
+          this.toastr.error(data.errorMessage, 'Operacion Fallida');
+          return;
         }
+
         this.entradaAddEditForm.setValue(this.formDefaultValues);
         this.OnSubmit.emit();
+        this.toastr.success('Entrada agregada.', 'Operacion Exitosa');
       });
   }
 
@@ -71,10 +76,14 @@ export class EntradaAddEditComponent implements OnInit {
     this.entradaService.editEntrada(entrada)
       .subscribe((data: any) => {
         if (data.hasError) {
-          console.log(data) //mostrar error
+          this.toastr.error(data.errorMessage, 'Operacion Fallida');
+          return;
         }
+
         this.entradaAddEditForm.setValue(this.formDefaultValues);
         this.OnSubmit.emit();
+        this.toastr.success('Entrada editado.', 'Operacion Exitosa');
+
       });
   }
 }

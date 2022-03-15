@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-usuario-login',
@@ -14,7 +15,8 @@ export class UsuarioLoginComponent implements OnInit {
   constructor(
     public fb: FormBuilder,
     public authService: AuthService,
-    public router: Router
+    public router: Router,
+    public toastr: ToastrService
   ) {
     this.loginForm = this.fb.group({
       username: [''],
@@ -27,7 +29,7 @@ export class UsuarioLoginComponent implements OnInit {
   loginUsuario() {
     this.authService.signIn(this.loginForm.value).subscribe((res: any) => {
       if (res.hasError) {
-        console.log(res); // mostrar mensaje
+        this.toastr.error(res.errorMessage, 'Operacion Fallida');
         return;
       }
 

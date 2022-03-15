@@ -4,6 +4,7 @@ import { ProductoService } from 'src/app/services/producto.service';
 import { UnidadService } from 'src/app/services/unidad.service';
 import { Select2OptionData } from 'ng-select2';
 import { map } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-producto-add',
@@ -25,13 +26,14 @@ export class ProductoAddComponent implements OnInit {
   constructor(
     public fb: FormBuilder,
     public productoService: ProductoService,
-    public unidadService: UnidadService
+    public unidadService: UnidadService,
+    public toastr: ToastrService
   ) {
     this.addProductoForm = this.fb.group({
       nombre: [''],
       descripcion: [''],
-      precio: [''],
-      unidadId: ['']
+      precio: ['0'],
+      unidadId: ['1']
     });
 
     this.unidadesList = [];
@@ -54,12 +56,13 @@ export class ProductoAddComponent implements OnInit {
   addProducto(): void {
     this.productoService.addProducto(this.addProductoForm.value).subscribe((data: any) => {
       if (data.hasError) {
-        console.log(data); //mostrar mensaje
+        this.toastr.error(data.errorMessage, 'Operacion Fallida');
+        return;
       }
 
       this.addProductoForm.reset();
       this.OnCloseModal.emit(true);
-      console.log(data);
+      this.toastr.success('Producto guardado.', 'Operacion Exitosa');
     });
   }
 }

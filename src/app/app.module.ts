@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { RouterModule } from '@angular/router';
@@ -22,6 +24,7 @@ import { AppComponent } from './app.component';
 
 import { AgGridModule } from 'ag-grid-angular';
 import { NgSelect2Module } from 'ng-select2';
+import { ToastrModule } from 'ngx-toastr';
 
 import { UnidadService } from './services/unidad.service';
 import { RazonService } from './services/razon.service';
@@ -47,6 +50,7 @@ import { SalidaAddComponent } from './components/salida/salida-add/salida-add.co
     SalidaAddComponent,
   ],
   imports: [
+    CommonModule,
     BrowserModule,
     HttpClientModule,
     RouterModule,
@@ -54,7 +58,11 @@ import { SalidaAddComponent } from './components/salida/salida-add/salida-add.co
     FormsModule,
     AppRoutingModule,
     AgGridModule,
-    NgSelect2Module
+    NgSelect2Module,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot({
+      positionClass: 'toast-bottom-right'
+    }),
   ],
   providers: [
     {

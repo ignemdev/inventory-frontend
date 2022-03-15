@@ -5,6 +5,8 @@ import { ColDef, ColGroupDef, GridApi, GridReadyEvent } from 'ag-grid-community'
 import { ProductoService } from 'src/app/services/producto.service';
 import { EntradaService } from 'src/app/services/entrada.service';
 
+import { ToastrService } from 'ngx-toastr';
+
 @Component({
   selector: 'app-entrada-all',
   templateUrl: './entrada-all.component.html',
@@ -36,7 +38,8 @@ export class EntradaAllComponent implements OnInit {
 
   constructor(
     private productoService: ProductoService,
-    private entradaService: EntradaService
+    private entradaService: EntradaService,
+    private toastr: ToastrService
   ) { }
 
   @Input() public set setProducto(_model: any) {
@@ -56,10 +59,6 @@ export class EntradaAllComponent implements OnInit {
   }
 
   getData(res: any) {
-    if (res.hasError) {
-      console.log(res) //mostrar error
-    }
-
     return res.data
   }
 
@@ -67,12 +66,14 @@ export class EntradaAllComponent implements OnInit {
     this.entradaService.deleteEntrada(this.selectedEntrada?.id)
       .subscribe((data: any) => {
         if (data.hasError) {
-          console.log(data); //mostrar mensaje
+          this.toastr.error(data.errorMessage, 'Operacion Fallida');
+          return;
         }
 
         this.isRowSelected = false;
         this.selectedEntrada = {};
         this.refreshGrid();
+        this.toastr.success('Entrada eliminada.', 'Operacion Exitosa');
       })
   }
 

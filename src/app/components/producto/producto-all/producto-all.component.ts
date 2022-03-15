@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { ColDef, ColGroupDef, GridApi, GridReadyEvent } from 'ag-grid-community';
+import { ToastrService } from 'ngx-toastr';
 
 import { ProductoService } from 'src/app/services/producto.service';
 
@@ -42,7 +43,8 @@ export class ProductoAllComponent implements OnInit {
   }
 
   constructor(
-    private productoService: ProductoService
+    private productoService: ProductoService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -51,10 +53,6 @@ export class ProductoAllComponent implements OnInit {
   }
 
   getData(res: any) {
-    if (res.hasError) {
-      console.log(res) //mostrar error
-    }
-
     return res.data
   }
 
@@ -73,12 +71,12 @@ export class ProductoAllComponent implements OnInit {
     this.productoService.deleteProducto(this.selectedProducto?.id)
       .subscribe((data: any) => {
         if (data.hasError) {
-          console.log(data); //mostrar mensaje
+          this.toastr.success(data.errorMessage, 'Operacion Fallida');
         }
 
         this.refreshGrid();
         this.isRowSelected = false;
-        console.log(data);
+        this.toastr.success('Producto eliminado.', 'Operacion Exitosa');
       })
   }
 

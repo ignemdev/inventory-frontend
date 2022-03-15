@@ -5,6 +5,7 @@ import { map } from 'rxjs';
 
 import { SalidaService } from 'src/app/services/salida.service';
 import { RazonService } from 'src/app/services/razon.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-salida-add',
@@ -27,7 +28,8 @@ export class SalidaAddComponent implements OnInit {
   constructor(
     public fb: FormBuilder,
     private salidaService: SalidaService,
-    private razonService: RazonService
+    private razonService: RazonService,
+    private toastr: ToastrService
   ) {
     this.salidaAddForm = this.fb.group({
       cantidad: [''],
@@ -55,12 +57,13 @@ export class SalidaAddComponent implements OnInit {
     this.salidaService.addSalida({ ...this.salidaAddForm.value, productoId: this.producto.id })
       .subscribe((data: any) => {
         if (data.hasError) {
-          console.log(data); //mostrar mensaje
+          this.toastr.error(data.errorMessage, 'Operacion Fallida');
+          return;
         }
 
         this.salidaAddForm.reset();
         this.OnSubmit.emit(true);
-        console.log(data);
+        this.toastr.success('Salida agregada.', 'Operacion Exitosa');
       });
   }
 }

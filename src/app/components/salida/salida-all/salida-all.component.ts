@@ -55,10 +55,6 @@ export class SalidaAllComponent implements OnInit {
   }
 
   getData(res: any) {
-    if (res.hasError) {
-      console.log(res) //mostrar error
-    }
-
     return res.data
   }
 
