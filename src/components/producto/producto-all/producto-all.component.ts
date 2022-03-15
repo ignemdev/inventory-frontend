@@ -4,9 +4,6 @@ import { ColDef, ColGroupDef, GridApi, GridReadyEvent } from 'ag-grid-community'
 
 import { ProductoService } from 'src/app/services/producto.service';
 
-import { BtnEditComponent } from 'src/app/buttons/btn-edit.component';
-import { BtnDeleteComponent } from 'src/app/buttons/btn-delete.component';
-
 @Component({
   selector: 'app-producto-all',
   templateUrl: './producto-all.component.html',
@@ -34,31 +31,6 @@ export class ProductoAllComponent implements OnInit {
     { headerName: 'Modificado', field: 'modificado', sortable: true, filter: true },
     { headerName: 'Creador', field: 'creador.username', sortable: true, filter: true },
     { headerName: 'Modificador', field: 'modificador.username', sortable: true, filter: true },
-
-    {
-      headerName: 'Operaciones',
-      children: [
-        {
-          headerName: 'Editar',
-          field: "id",
-          cellRenderer: BtnEditComponent,
-          cellRendererParams: {
-            clicked: this.editModalHandler
-          },
-          width: 100,
-        },
-        {
-          headerName: 'Eliminar',
-          field: "id",
-          cellRenderer: BtnDeleteComponent,
-          cellRendererParams: {
-            clicked: this.deleteProducto
-          },
-          width: 120,
-        }
-      ]
-    }
-
   ];
 
   gridOptions = {

@@ -31,4 +31,12 @@ export class ProductoService {
   deleteProducto(id: number | string) {
     return this.http.delete(this.endpoint + `/producto/${id}`);
   }
+
+  getProductoEntradasById(id: number): Observable<any[]> {
+    return this.http.get<any>(this.endpoint + `/producto/${id}/entradas`);
+  }
+
+  getProductoSalidasById(id: number): Observable<any[]> {
+    return this.http.get<any>(this.endpoint + `/producto/${id}/salidas`);
+  }
 }

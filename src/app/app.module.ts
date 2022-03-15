@@ -6,15 +6,15 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 
-import { AppLayoutComponent } from './common/app-layout/app-layout.component';
-import { UsuarioLayoutComponent } from './common/usuario-layout/usuario-layout.component';
+import { AppLayoutComponent } from '../components/shared/app-layout/app-layout.component';
+import { UsuarioLayoutComponent } from '../components/shared/usuario-layout/usuario-layout.component';
 
-import { UsuarioLoginComponent } from './usuario/usuario-login/usuario-login.component';
-import { UsuarioRegisterComponent } from './usuario/usuario-register/usuario-register.component';
+import { UsuarioLoginComponent } from '../components/usuario/usuario-login/usuario-login.component';
+import { UsuarioRegisterComponent } from '../components/usuario/usuario-register/usuario-register.component';
 
-import { ProductoAllComponent } from './producto/producto-all/producto-all.component';
-import { ProductoAddComponent } from './producto/producto-add/producto-add.component';
-import { ProductoEditComponent } from './producto/producto-edit/producto-edit.component';
+import { ProductoAllComponent } from '../components/producto/producto-all/producto-all.component';
+import { ProductoAddComponent } from '../components/producto/producto-add/producto-add.component';
+import { ProductoEditComponent } from '../components/producto/producto-edit/producto-edit.component';
 
 import { AppComponent } from './app.component';
 
@@ -23,8 +23,7 @@ import { NgSelect2Module } from 'ng-select2';
 
 import { ProductoService } from './services/producto.service';
 import { UnidadService } from './services/unidad.service';
-import { BtnEditComponent } from './buttons/btn-edit.component';
-import { BtnDeleteComponent } from './buttons/btn-delete.component';
+import { EntradaService } from './services/entrada.service';
 
 @NgModule({
   declarations: [
@@ -36,8 +35,6 @@ import { BtnDeleteComponent } from './buttons/btn-delete.component';
     ProductoEditComponent,
     AppLayoutComponent,
     UsuarioLayoutComponent,
-    BtnEditComponent,
-    BtnDeleteComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,7 +43,7 @@ import { BtnDeleteComponent } from './buttons/btn-delete.component';
     ReactiveFormsModule,
     FormsModule,
     AppRoutingModule,
-    AgGridModule.withComponents([BtnEditComponent, BtnDeleteComponent]),
+    AgGridModule,
     NgSelect2Module
   ],
   providers: [
@@ -56,7 +53,8 @@ import { BtnDeleteComponent } from './buttons/btn-delete.component';
       multi: true
     },
     ProductoService,
-    UnidadService
+    UnidadService,
+    EntradaService
   ],
   bootstrap: [AppComponent]
 })
