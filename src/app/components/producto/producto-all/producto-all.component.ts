@@ -16,6 +16,7 @@ export class ProductoAllComponent implements OnInit {
   public showAddModal: boolean = false;
   public showEditModal: boolean = false;
   public showEntradasModal: boolean = false;
+  public showSalidasModal: boolean = false;
   public isRowSelected: boolean = false;
   public selectedProducto: any = {};
   gridApi!: GridApi;
@@ -86,6 +87,10 @@ export class ProductoAllComponent implements OnInit {
     this.showEntradasModal = true;
   }
 
+  public salidasModalHandler() {
+    this.showSalidasModal = true;
+  }
+
   //cerrar modal para agregar
   closeAddModal() {
     this.refreshGrid();
@@ -104,6 +109,13 @@ export class ProductoAllComponent implements OnInit {
     this.refreshGrid();
     this.isRowSelected = false;
     this.showEntradasModal = false;
+  }
+
+  //cerrar modal de salidas
+  closeSalidasModal() {
+    this.refreshGrid();
+    this.isRowSelected = false;
+    this.showSalidasModal = false;
   }
 
   //evento disparado cuando se cambia el producto seleccionado

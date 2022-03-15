@@ -8,7 +8,7 @@
 
         <div *ngIf="isRowSelected" class="btn-group" role="group" aria-label="Basic example">
             <button type="button" (click)="entradasModalHandler()" class="btn btn-outline-dark">Entradas</button>
-            <button type="button" (click)="editModalHandler()" class="btn btn-outline-danger">Salidas</button>
+            <button type="button" (click)="salidasModalHandler()" class="btn btn-outline-danger">Salidas</button>
         </div>
     </div>
     <app-producto-add *ngIf="showAddModal" (OnCloseModal)="closeAddModal()">
@@ -19,6 +19,10 @@
 
     <app-entrada-all *ngIf="showEntradasModal" (OnCloseModal)="closeEntradasModal()" [setProducto]="selectedProducto">
     </app-entrada-all>
+
+    <app-salida-all *ngIf="showSalidasModal" (OnCloseModal)="closeSalidasModal()" [setProducto]="selectedProducto">
+    </app-salida-all>
+
     <ag-grid-angular style="width: 100%; height: 500px;" class="ag-theme-alpine" [rowData]="productos$ | async"
         [columnDefs]="columnDefs" [pagination]="true" [gridOptions]="gridOptions" (gridReady)="onGridReady($event)"
         (selectionChanged)="onProductoSelectedChange()" rowSelection="single">

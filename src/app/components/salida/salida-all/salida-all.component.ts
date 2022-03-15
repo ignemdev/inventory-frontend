@@ -3,24 +3,23 @@ import { Observable, map } from 'rxjs';
 import { ColDef, ColGroupDef, GridApi, GridReadyEvent } from 'ag-grid-community';
 
 import { ProductoService } from 'src/app/services/producto.service';
-import { EntradaService } from 'src/app/services/entrada.service';
 
 @Component({
-  selector: 'app-entrada-all',
-  templateUrl: './entrada-all.component.html',
-  styleUrls: ['./entrada-all.component.css']
+  selector: 'app-salida-all',
+  templateUrl: './salida-all.component.html',
+  styleUrls: ['./salida-all.component.css']
 })
-export class EntradaAllComponent implements OnInit {
+export class SalidaAllComponent implements OnInit {
   public producto: any = {};
-  public selectedEntrada: any = {};
-  public isRowSelected: boolean = false;
-  entradas$!: Observable<any[]>;
+  public selectedSalida: any = {};
+  salidas$!: Observable<any[]>;
   gridApi!: GridApi;
 
   columnDefs: (ColDef | ColGroupDef)[] = [
-    { headerName: 'Id', field: 'id', sortable: true, filter: true, checkboxSelection: true },
+    { headerName: 'Id', field: 'id', sortable: true, filter: true },
     { headerName: 'Producto', field: 'producto.nombre', sortable: true, filter: true, },
     { headerName: 'Cantidad', field: 'cantidad', sortable: true, filter: true, },
+    { headerName: 'Razon', field: 'razon.descripcion', sortable: true, filter: true, },
     { headerName: 'Creado', field: 'creado', sortable: true, filter: true },
     { headerName: 'Modificado', field: 'modificado', sortable: true, filter: true },
     { headerName: 'Creador', field: 'creador.username', sortable: true, filter: true },
@@ -35,8 +34,7 @@ export class EntradaAllComponent implements OnInit {
   }
 
   constructor(
-    private productoService: ProductoService,
-    private entradaService: EntradaService
+    private productoService: ProductoService
   ) { }
 
   @Input() public set setProducto(_model: any) {
@@ -46,12 +44,13 @@ export class EntradaAllComponent implements OnInit {
   }
 
   @Output() public OnCloseModal: EventEmitter<any> = new EventEmitter();
+
   onCancel() {
     this.OnCloseModal.emit(true);
   }
 
   ngOnInit(): void {
-    this.entradas$ = this.productoService.getProductoEntradasById(this.producto.id)
+    this.salidas$ = this.productoService.getProductoSalidasById(this.producto.id)
       .pipe(map(this.getData))
   }
 
@@ -63,34 +62,12 @@ export class EntradaAllComponent implements OnInit {
     return res.data
   }
 
-  deleteEntrada() {
-    this.entradaService.deleteEntrada(this.selectedEntrada?.id)
-      .subscribe((data: any) => {
-        if (data.hasError) {
-          console.log(data); //mostrar mensaje
-        }
-
-        this.isRowSelected = false;
-        this.selectedEntrada = {};
-        this.refreshGrid();
-      })
-  }
-
-  onEntradaAddEditSubmit() {
-    this.isRowSelected = false;
-    this.selectedEntrada = {};
+  onSalidaAddSubmit() {
     this.refreshGrid();
   }
 
-  //evento disparado cuando se cambia el producto seleccionado
-  onEntradaSelectedChange() {
-    const selectedRows = this.gridApi.getSelectedRows()[0];
-    this.isRowSelected = selectedRows;
-    this.selectedEntrada = (this.isRowSelected) ? selectedRows : {};
-  }
-
   refreshGrid(): void {
-    this.entradas$.subscribe((data: any) => {
+    this.salidas$.subscribe((data: any) => {
       this.gridApi.setRowData(data);
     });
   }

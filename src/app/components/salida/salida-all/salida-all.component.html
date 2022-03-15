@@ -1,0 +1,29 @@
+<div class="modal modal-backdrop d-block" id="ProductoEntradaModal" data-bs-backdrop="true" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="ProductoEntradaModalLabel" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="text-center text-dark modal-title"><span class="bg-danger text-white p-2">Salidas</span>
+                    {{producto?.nombre}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" mat-button
+                    (click)="onCancel()"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <app-salida-add [setProducto]="producto" (OnSubmit)="onSalidaAddSubmit()">
+                    </app-salida-add>
+                </div>
+                <div>
+                    <ag-grid-angular style="width: 100%;" class="ag-theme-alpine" domLayout="autoHeight"
+                        [rowData]="salidas$ | async" [columnDefs]="columnDefs" [pagination]="true"
+                        [gridOptions]="gridOptions" (gridReady)="onGridReady($event)">
+                    </ag-grid-angular>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal" mat-button
+                    (click)="onCancel()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -15,17 +15,21 @@ import { UsuarioRegisterComponent } from './components/usuario/usuario-register/
 import { ProductoAllComponent } from './components/producto/producto-all/producto-all.component';
 import { ProductoAddComponent } from './components/producto/producto-add/producto-add.component';
 import { ProductoEditComponent } from './components/producto/producto-edit/producto-edit.component';
+import { EntradaAllComponent } from './components/entrada/entrada-all/entrada-all.component';
+import { EntradaAddEditComponent } from './components/entrada/entrada-add-edit/entrada-add-edit.component';
 
 import { AppComponent } from './app.component';
 
 import { AgGridModule } from 'ag-grid-angular';
 import { NgSelect2Module } from 'ng-select2';
 
-import { ProductoService } from './services/producto.service';
 import { UnidadService } from './services/unidad.service';
+import { RazonService } from './services/razon.service';
+import { ProductoService } from './services/producto.service';
 import { EntradaService } from './services/entrada.service';
-import { EntradaAllComponent } from './components/entrada/entrada-all/entrada-all.component';
-import { EntradaAddEditComponent } from './components/entrada/entrada-add-edit/entrada-add-edit.component';
+import { SalidaService } from './services/salida.service';
+import { SalidaAllComponent } from './components/salida/salida-all/salida-all.component';
+import { SalidaAddComponent } from './components/salida/salida-add/salida-add.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +43,8 @@ import { EntradaAddEditComponent } from './components/entrada/entrada-add-edit/e
     UsuarioLayoutComponent,
     EntradaAllComponent,
     EntradaAddEditComponent,
+    SalidaAllComponent,
+    SalidaAddComponent,
   ],
   imports: [
     BrowserModule,
@@ -56,9 +62,11 @@ import { EntradaAddEditComponent } from './components/entrada/entrada-add-edit/e
       useClass: AuthInterceptor,
       multi: true
     },
-    ProductoService,
     UnidadService,
-    EntradaService
+    ProductoService,
+    EntradaService,
+    SalidaService,
+    RazonService
   ],
   bootstrap: [AppComponent]
 })
