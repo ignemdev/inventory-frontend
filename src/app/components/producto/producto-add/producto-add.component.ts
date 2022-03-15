@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProductoService } from 'src/app/services/producto.service';
 import { UnidadService } from 'src/app/services/unidad.service';
 import { Select2OptionData } from 'ng-select2';
@@ -30,10 +30,10 @@ export class ProductoAddComponent implements OnInit {
     public toastr: ToastrService
   ) {
     this.addProductoForm = this.fb.group({
-      nombre: [''],
-      descripcion: [''],
-      precio: ['0'],
-      unidadId: ['1']
+      nombre: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(150)]],
+      descripcion: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(300)]],
+      precio: ['', [Validators.required, Validators.min(10), Validators.max(100000)]],
+      unidadId: ['', [Validators.required]]
     });
 
     this.unidadesList = [];
@@ -64,5 +64,11 @@ export class ProductoAddComponent implements OnInit {
       this.OnCloseModal.emit(true);
       this.toastr.success('Producto guardado.', 'Operacion Exitosa');
     });
+  }
+
+  checkInvalidInput(field: string): boolean | undefined {
+    return this.addProductoForm.get(field)?.invalid &&
+      (this.addProductoForm.get(field)?.dirty ||
+        this.addProductoForm.get(field)?.touched)
   }
 }

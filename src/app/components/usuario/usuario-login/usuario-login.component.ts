@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -19,8 +19,8 @@ export class UsuarioLoginComponent implements OnInit {
     public toastr: ToastrService
   ) {
     this.loginForm = this.fb.group({
-      username: [''],
-      password: [''],
+      username: ['', [Validators.required]],
+      password: ['', [Validators.required]],
     });
   }
 
@@ -38,5 +38,11 @@ export class UsuarioLoginComponent implements OnInit {
       localStorage.setItem('user_name', data.username);
       this.router.navigate(['productos']);
     });
+  }
+
+  checkInvalidInput(field: string): boolean | undefined {
+    return this.loginForm.get(field)?.invalid &&
+      (this.loginForm.get(field)?.dirty ||
+        this.loginForm.get(field)?.touched)
   }
 }

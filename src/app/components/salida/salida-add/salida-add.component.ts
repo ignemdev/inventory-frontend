@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validator, Validators } from '@angular/forms';
 import { Select2OptionData } from 'ng-select2';
 import { map } from 'rxjs';
 
@@ -32,8 +32,8 @@ export class SalidaAddComponent implements OnInit {
     private toastr: ToastrService
   ) {
     this.salidaAddForm = this.fb.group({
-      cantidad: [''],
-      razonId: ['']
+      cantidad: ['', [Validators.required, Validators.min(1), Validators.max(10000)]],
+      razonId: ['', [Validators.required]]
     });
 
     this.razonList = [];
@@ -65,5 +65,11 @@ export class SalidaAddComponent implements OnInit {
         this.OnSubmit.emit(true);
         this.toastr.success('Salida agregada.', 'Operacion Exitosa');
       });
+  }
+
+  checkInvalidInput(field: string): boolean | undefined {
+    return this.salidaAddForm.get(field)?.invalid &&
+      (this.salidaAddForm.get(field)?.dirty ||
+        this.salidaAddForm.get(field)?.touched)
   }
 }

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ProductoService } from 'src/app/services/producto.service';
 import { UnidadService } from 'src/app/services/unidad.service';
 import { Select2OptionData } from 'ng-select2';
@@ -15,17 +15,18 @@ export class ProductoEditComponent implements OnInit {
   editProductoForm: FormGroup;
   public unidadesList: Array<Select2OptionData>;
   public formControl = new FormControl();
-  public productoId: any;
+  public producto: any;
 
   // Get data From Parent ----------------------------------
-  @Input() public set setProductoId(_model: any) {
+  @Input() public set setProducto(_model: any) {
     if (_model != undefined) {
-      this.productoId = _model;
+      this.producto = _model;
     }
   }
 
   // Close Modal ----------------------------------
   @Output() public OnCloseModal: EventEmitter<any> = new EventEmitter();
+
   onCancel() {
     this.OnCloseModal.emit(true);
   }
@@ -37,11 +38,11 @@ export class ProductoEditComponent implements OnInit {
     public toastr: ToastrService
   ) {
     this.editProductoForm = this.fb.group({
-      id: [''],
-      nombre: [''],
-      descripcion: [''],
-      precio: [''],
-      unidadId: ['']
+      id: ['', [Validators.required]],
+      nombre: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(150)]],
+      descripcion: ['', [Validators.required, Validators.minLength(1), Validators.maxLength(300)]],
+      precio: ['', [Validators.required, Validators.min(10), Validators.max(100000)]],
+      unidadId: ['', [Validators.required]]
     });
     this.unidadesList = [];
   }
@@ -51,7 +52,8 @@ export class ProductoEditComponent implements OnInit {
       .pipe(map(this.resToSelect2List))
       .subscribe((data: any) => this.unidadesList = data);
 
-    this.setFormData(this.productoId);
+    const { creado, modificado, creador, modificador, unidad, stock, ...producto } = this.producto;
+    this.editProductoForm.setValue({ ...producto, unidadId: unidad.id });
   }
 
   resToSelect2List(res: any) {
@@ -62,18 +64,8 @@ export class ProductoEditComponent implements OnInit {
     return select2options;
   }
 
-  setFormData(id: any): void {
-    this.productoService.getProductoById(id)
-      .pipe(map((res: any) => res.data))
-      .subscribe((data: any) => {
-        const { creado, modificado, creador, modificador, unidad, stock, ...producto } = data;
-        this.editProductoForm.setValue({ ...producto, unidadId: unidad.id });
-      });
-  }
-
   editProducto(): void {
     this.productoService.editProducto(this.editProductoForm.value).subscribe((data: any) => {
-      console.log(data);
       if (data.hasError) {
         this.toastr.error(data.errorMessage, 'Operacion Fallida');
         return;
@@ -83,5 +75,11 @@ export class ProductoEditComponent implements OnInit {
       this.OnCloseModal.emit(true);
       this.toastr.success('Producto editado.', 'Operacion Exitosa');
     });
+  }
+
+  checkInvalidInput(field: string): boolean | undefined {
+    return this.editProductoForm.get(field)?.invalid &&
+      (this.editProductoForm.get(field)?.dirty ||
+        this.editProductoForm.get(field)?.touched)
   }
 }

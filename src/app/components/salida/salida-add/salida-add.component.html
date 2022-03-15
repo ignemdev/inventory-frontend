@@ -4,12 +4,14 @@
             <label for="salida-cantidad" class="form-label">Cantidad</label>
             <input type="number" formControlName="cantidad" class="form-control" id="salida-cantidad"
                 placeholder="Cantidad">
+            <div *ngIf="checkInvalidInput('cantidad')" class="form-text text-danger">Cantidad Invalida.</div>
         </div>
         <div class="col mb-3">
             <label for="salida-razon" class="form-label">Razon</label>
             <ng-select2 *ngIf="razonList.length != 0" [data]="razonList" formControlName="razonId" width="100%">
             </ng-select2>
+            <div *ngIf="checkInvalidInput('razonId')" class="form-text text-danger">Razon Invalida.</div>
         </div>
     </div>
-    <button type="submit" class="btn btn-dark w-100 mb-2">Agregar</button>
+    <button type="submit" [disabled]="salidaAddForm.invalid" class="btn btn-dark w-100 mb-2">Agregar</button>
 </form>

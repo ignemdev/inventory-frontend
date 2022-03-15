@@ -5,9 +5,11 @@
         <div class="col-sm-6">
             <input type="number" formControlName="cantidad" class="form-control" id="entrada-cantidad"
                 placeholder="cantidad">
+            <div *ngIf="checkInvalidInput('cantidad')" class="form-text text-danger">Cantidad Invalida.</div>
         </div>
         <div class="col-sm-4">
-            <button type="submit" class="btn btn-dark w-100 mb-2">Guardar</button>
+            <button type="submit" class="btn btn-dark w-100 mb-2"
+                [disabled]="entradaAddEditForm.invalid">Guardar</button>
         </div>
     </div>
 </form>

@@ -14,7 +14,7 @@
     <app-producto-add *ngIf="showAddModal" (OnCloseModal)="closeAddModal()">
     </app-producto-add>
 
-    <app-producto-edit *ngIf="showEditModal" (OnCloseModal)="closeEditModal()" [setProductoId]="selectedProducto?.id">
+    <app-producto-edit *ngIf="showEditModal" (OnCloseModal)="closeEditModal()" [setProducto]="selectedProducto">
     </app-producto-edit>
 
     <app-entrada-all *ngIf="showEntradasModal" (OnCloseModal)="closeEntradasModal()" [setProducto]="selectedProducto">

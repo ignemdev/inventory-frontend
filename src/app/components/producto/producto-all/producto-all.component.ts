@@ -128,7 +128,6 @@ export class ProductoAllComponent implements OnInit {
     this.productos$.subscribe((data: any) => {
       this.gridApi.setRowData(data);
     });
-    console.log('refresco')
   }
 
   //evento disparado cuando se carga el grid

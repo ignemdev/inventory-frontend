@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, Input, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 
 import { EntradaService } from 'src/app/services/entrada.service';
 import { ToastrService } from 'ngx-toastr';
@@ -13,8 +13,8 @@ import { ToastrService } from 'ngx-toastr';
 export class EntradaAddEditComponent implements OnInit {
   entradaAddEditForm: FormGroup;
   formDefaultValues: any = {
-    id: 0,
-    cantidad: ''
+    id: [0],
+    cantidad: ['', [Validators.required, Validators.min(1), Validators.max(10000)]],
   };
   producto: any = {};
   entrada: any = {};
@@ -85,5 +85,11 @@ export class EntradaAddEditComponent implements OnInit {
         this.toastr.success('Entrada editado.', 'Operacion Exitosa');
 
       });
+  }
+
+  checkInvalidInput(field: string): boolean | undefined {
+    return this.entradaAddEditForm.get(field)?.invalid &&
+      (this.entradaAddEditForm.get(field)?.dirty ||
+        this.entradaAddEditForm.get(field)?.touched)
   }
 }

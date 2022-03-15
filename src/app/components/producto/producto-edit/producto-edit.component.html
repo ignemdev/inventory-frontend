@@ -14,25 +14,31 @@
                     <div class="mb-3">
                         <label for="producto-nombre" class="form-label">Nombre</label>
                         <input formControlName="nombre" class="form-control" id="producto-nombre" placeholder="Nombre">
+                        <div *ngIf="checkInvalidInput('nombre')" class="form-text text-danger">Nombre Invalido.</div>
                     </div>
                     <div class="mb-3">
                         <label for="producto-descripcion" class="form-label">Descripcion</label>
                         <textarea formControlName="descripcion" class="form-control" id="producto-descripcion"
                             placeholder="descripcion">
                         </textarea>
+                        <div *ngIf="checkInvalidInput('descripcion')" class="form-text text-danger">Descripcion
+                            Invalida.</div>
                     </div>
                     <div class="mb-3">
                         <label for="producto-precio" class="form-label">Precio</label>
                         <input type="number" formControlName="precio" class="form-control" id="producto-precio"
                             placeholder="precio">
+                        <div *ngIf="checkInvalidInput('precio')" class="form-text text-danger">Precio Invalido.</div>
                     </div>
                     <div class="mb-3">
                         <label for="producto-unidad" class="form-label">Unidad</label>
                         <ng-select2 *ngIf="unidadesList.length != 0" [data]="unidadesList" formControlName="unidadId"
                             width="100%">
                         </ng-select2>
+                        <div *ngIf="checkInvalidInput('unidadId')" class="form-text text-danger">Unidad Invalida.</div>
                     </div>
-                    <button type="submit" class="btn btn-dark w-100 mb-2">Guardar</button>
+                    <button type="submit" [disabled]="editProductoForm.invalid"
+                        class="btn btn-dark w-100 mb-2">Guardar</button>
                 </form>
             </div>
             <div class="modal-footer">
