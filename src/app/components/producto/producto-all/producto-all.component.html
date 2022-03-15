@@ -11,14 +11,16 @@
             <button type="button" (click)="editModalHandler()" class="btn btn-outline-danger">Salidas</button>
         </div>
     </div>
-    <!-- modal va aqui -->
     <app-producto-add *ngIf="showAddModal" (OnCloseModal)="closeAddModal()">
     </app-producto-add>
-    <app-producto-edit *ngIf="showEditModal" (OnCloseModal)="closeEditModal()" [setProductoId]="selectedProductoId">
+
+    <app-producto-edit *ngIf="showEditModal" (OnCloseModal)="closeEditModal()" [setProductoId]="selectedProducto?.id">
     </app-producto-edit>
-    <!-- modal va aqui -->
-    <ag-grid-angular style="width: 100%; height: 500px;" class="ag-theme-alpine" domLayout="autoHeight"
-        [rowData]="productos$ | async" [columnDefs]="columnDefs" [pagination]="true" [gridOptions]="gridOptions"
-        (gridReady)="onGridReady($event)" (selectionChanged)="onProductoSelectedChange()" rowSelection="single">
+
+    <app-entrada-all *ngIf="showEntradasModal" (OnCloseModal)="closeEntradasModal()" [setProducto]="selectedProducto">
+    </app-entrada-all>
+    <ag-grid-angular style="width: 100%; height: 500px;" class="ag-theme-alpine" [rowData]="productos$ | async"
+        [columnDefs]="columnDefs" [pagination]="true" [gridOptions]="gridOptions" (gridReady)="onGridReady($event)"
+        (selectionChanged)="onProductoSelectedChange()" rowSelection="single">
     </ag-grid-angular>
 </section>

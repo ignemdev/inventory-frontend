@@ -1,0 +1,13 @@
+<form [formGroup]="entradaAddEditForm" (ngSubmit)="addEditEntrada()">
+    <input type="hidden" formControlName="id" class="form-control" id="entrada-id">
+    <div class="row mb-3">
+        <label for="entrada-cantidad" class="col-sm-2 col-form-label">Cantidad</label>
+        <div class="col-sm-6">
+            <input type="number" formControlName="cantidad" class="form-control" id="entrada-cantidad"
+                placeholder="cantidad">
+        </div>
+        <div class="col-sm-4">
+            <button type="submit" class="btn btn-dark w-100 mb-2">Guardar</button>
+        </div>
+    </div>
+</form>

@@ -24,6 +24,8 @@ import { NgSelect2Module } from 'ng-select2';
 import { ProductoService } from './services/producto.service';
 import { UnidadService } from './services/unidad.service';
 import { EntradaService } from './services/entrada.service';
+import { EntradaAllComponent } from './components/entrada/entrada-all/entrada-all.component';
+import { EntradaAddEditComponent } from './components/entrada/entrada-add-edit/entrada-add-edit.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +37,8 @@ import { EntradaService } from './services/entrada.service';
     ProductoEditComponent,
     AppLayoutComponent,
     UsuarioLayoutComponent,
+    EntradaAllComponent,
+    EntradaAddEditComponent,
   ],
   imports: [
     BrowserModule,

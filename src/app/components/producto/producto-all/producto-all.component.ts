@@ -17,8 +17,8 @@ export class ProductoAllComponent implements OnInit {
   public showEditModal: boolean = false;
   public showEntradasModal: boolean = false;
   public isRowSelected: boolean = false;
-  public selectedProductoId: any;
-
+  public selectedProducto: any = {};
+  gridApi!: GridApi;
 
   columnDefs: (ColDef | ColGroupDef)[] = [
     { headerName: 'Id', field: 'id', sortable: true, filter: true, checkboxSelection: true },
@@ -27,7 +27,6 @@ export class ProductoAllComponent implements OnInit {
     { headerName: 'Stock', field: 'stock', sortable: true, filter: true, },
     { headerName: 'Precio', field: 'precio', sortable: true, filter: true, },
     { headerName: 'Unidad', field: 'unidad.descripcion', sortable: true, filter: true, },
-    { headerName: 'Stock', field: 'stock', sortable: true, filter: true, },
     { headerName: 'Creado', field: 'creado', sortable: true, filter: true },
     { headerName: 'Modificado', field: 'modificado', sortable: true, filter: true },
     { headerName: 'Creador', field: 'creador.username', sortable: true, filter: true },
@@ -37,14 +36,13 @@ export class ProductoAllComponent implements OnInit {
   gridOptions = {
     suppressMenuHide: true,
     suppressRowDeselection: true,
-    suppressRowClickSelection: true
+    suppressRowClickSelection: true,
+    paginationPageSize: 10
   }
 
   constructor(
     private productoService: ProductoService
   ) { }
-
-  gridApi!: GridApi;
 
   ngOnInit(): void {
     this.productos$ = this.productoService.getProductoList()
@@ -71,7 +69,7 @@ export class ProductoAllComponent implements OnInit {
 
   //borrar producto
   deleteProducto() {
-    this.productoService.deleteProducto(this.selectedProductoId)
+    this.productoService.deleteProducto(this.selectedProducto?.id)
       .subscribe((data: any) => {
         if (data.hasError) {
           console.log(data); //mostrar mensaje
@@ -101,11 +99,18 @@ export class ProductoAllComponent implements OnInit {
     this.showEditModal = false;
   }
 
-  //
+  //cerrar modal de entradas
   closeEntradasModal() {
     this.refreshGrid();
     this.isRowSelected = false;
     this.showEntradasModal = false;
+  }
+
+  //evento disparado cuando se cambia el producto seleccionado
+  onProductoSelectedChange() {
+    const selectedRows = this.gridApi.getSelectedRows()[0];
+    this.isRowSelected = selectedRows;
+    this.selectedProducto = (this.isRowSelected) ? selectedRows : {};
   }
 
   //refrescar grid
@@ -116,13 +121,7 @@ export class ProductoAllComponent implements OnInit {
     console.log('refresco')
   }
 
-  //evento disparado cuando se cambia el producto seleccionado
-  onProductoSelectedChange() {
-    const selectedRows = this.gridApi.getSelectedRows()[0];
-    this.isRowSelected = selectedRows;
-    this.selectedProductoId = (this.isRowSelected) ? selectedRows?.id : 0;
-  }
-
+  //evento disparado cuando se carga el grid
   onGridReady(params: GridReadyEvent) {
     this.gridApi = params.api;
   }

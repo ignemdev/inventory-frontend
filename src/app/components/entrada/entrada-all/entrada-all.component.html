@@ -1,0 +1,33 @@
+<div class="modal modal-backdrop d-block" id="ProductoEntradaModal" data-bs-backdrop="true" data-bs-keyboard="false"
+    tabindex="-1" aria-labelledby="ProductoEntradaModalLabel" aria-hidden="true" role="dialog">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="text-center text-dark modal-title"><span class="bg-danger text-white p-2">Entradas</span>
+                    {{producto?.nombre}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" mat-button
+                    (click)="onCancel()"></button>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <app-entrada-add-edit [setEntrada]="selectedEntrada" [setProducto]="producto"
+                        (OnSubmit)="onEntradaAddEditSubmit()">
+                    </app-entrada-add-edit>
+                </div>
+                <div>
+                    <button *ngIf="isRowSelected" class="btn btn-danger w-100 mb-2" mat-button
+                        (click)="deleteEntrada()">Eliminar</button>
+                    <ag-grid-angular style="width: 100%;" class="ag-theme-alpine" domLayout="autoHeight"
+                        [rowData]="entradas$ | async" [columnDefs]="columnDefs" [pagination]="true"
+                        [gridOptions]="gridOptions" (gridReady)="onGridReady($event)"
+                        (selectionChanged)="onEntradaSelectedChange()" rowSelection="single">
+                    </ag-grid-angular>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-danger" data-bs-dismiss="modal" mat-button
+                    (click)="onCancel()">Cerrar</button>
+            </div>
+        </div>
+    </div>
+</div>
