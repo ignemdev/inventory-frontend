@@ -6,15 +6,15 @@ import { RouterModule } from '@angular/router';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { AppRoutingModule } from './app-routing.module';
 
-import { AppLayoutComponent } from '../components/shared/app-layout/app-layout.component';
-import { UsuarioLayoutComponent } from '../components/shared/usuario-layout/usuario-layout.component';
+import { AppLayoutComponent } from './components/shared/app-layout/app-layout.component';
+import { UsuarioLayoutComponent } from './components/shared/usuario-layout/usuario-layout.component';
 
-import { UsuarioLoginComponent } from '../components/usuario/usuario-login/usuario-login.component';
-import { UsuarioRegisterComponent } from '../components/usuario/usuario-register/usuario-register.component';
+import { UsuarioLoginComponent } from './components/usuario/usuario-login/usuario-login.component';
+import { UsuarioRegisterComponent } from './components/usuario/usuario-register/usuario-register.component';
 
-import { ProductoAllComponent } from '../components/producto/producto-all/producto-all.component';
-import { ProductoAddComponent } from '../components/producto/producto-add/producto-add.component';
-import { ProductoEditComponent } from '../components/producto/producto-edit/producto-edit.component';
+import { ProductoAllComponent } from './components/producto/producto-all/producto-all.component';
+import { ProductoAddComponent } from './components/producto/producto-add/producto-add.component';
+import { ProductoEditComponent } from './components/producto/producto-edit/producto-edit.component';
 
 import { AppComponent } from './app.component';
 

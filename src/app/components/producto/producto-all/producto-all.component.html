@@ -3,11 +3,11 @@
         <button class="btn btn-dark my-2" (click)="addModalHandler()">Nuevo</button>
         <div *ngIf="isRowSelected" class="btn-group mx-2" role="group" aria-label="Basic example">
             <button type="button" (click)="editModalHandler()" class="btn btn-outline-dark">Editar</button>
-            <button type="button" (click)="editModalHandler()" class="btn btn-outline-danger">Eliminar</button>
+            <button type="button" (click)="deleteProducto()" class="btn btn-outline-danger">Eliminar</button>
         </div>
 
         <div *ngIf="isRowSelected" class="btn-group" role="group" aria-label="Basic example">
-            <button type="button" (click)="editModalHandler()" class="btn btn-outline-dark">Entradas</button>
+            <button type="button" (click)="entradasModalHandler()" class="btn btn-outline-dark">Entradas</button>
             <button type="button" (click)="editModalHandler()" class="btn btn-outline-danger">Salidas</button>
         </div>
     </div>

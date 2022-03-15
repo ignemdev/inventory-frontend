@@ -15,6 +15,7 @@ export class ProductoAllComponent implements OnInit {
   productos$!: Observable<any[]>;
   public showAddModal: boolean = false;
   public showEditModal: boolean = false;
+  public showEntradasModal: boolean = false;
   public isRowSelected: boolean = false;
   public selectedProductoId: any;
 
@@ -68,16 +69,23 @@ export class ProductoAllComponent implements OnInit {
     this.showEditModal = true;
   }
 
-  //evento disparado cuando se cambia el producto seleccionado
-  onProductoSelectedChange() {
-    const selectedRows = this.gridApi.getSelectedRows()[0];
-    this.isRowSelected = selectedRows;
-    this.selectedProductoId = (this.isRowSelected) ? selectedRows?.id : 0;
+  //borrar producto
+  deleteProducto() {
+    this.productoService.deleteProducto(this.selectedProductoId)
+      .subscribe((data: any) => {
+        if (data.hasError) {
+          console.log(data); //mostrar mensaje
+        }
+
+        this.refreshGrid();
+        this.isRowSelected = false;
+        console.log(data);
+      })
   }
 
-  //borrar producto
-  deleteProducto(id: any) {
-    alert(`borrar ${id}`);
+  //abrir modal para ver entradas
+  public entradasModalHandler() {
+    this.showEntradasModal = true;
   }
 
   //cerrar modal para agregar
@@ -93,11 +101,26 @@ export class ProductoAllComponent implements OnInit {
     this.showEditModal = false;
   }
 
+  //
+  closeEntradasModal() {
+    this.refreshGrid();
+    this.isRowSelected = false;
+    this.showEntradasModal = false;
+  }
+
+  //refrescar grid
   refreshGrid(): void {
     this.productos$.subscribe((data: any) => {
       this.gridApi.setRowData(data);
     });
     console.log('refresco')
+  }
+
+  //evento disparado cuando se cambia el producto seleccionado
+  onProductoSelectedChange() {
+    const selectedRows = this.gridApi.getSelectedRows()[0];
+    this.isRowSelected = selectedRows;
+    this.selectedProductoId = (this.isRowSelected) ? selectedRows?.id : 0;
   }
 
   onGridReady(params: GridReadyEvent) {
